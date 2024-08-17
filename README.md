@@ -3,8 +3,8 @@
 ## What is PointBeV?
 - PointBev is a SOTA BeV perception model.
 - Below is a summary of this model.
-  1. The authors proposed a Sparse Feature Pulling module  
-    1.1. This reduced the computations during the training and inference time.
+  1. The authors proposed a Sparse Feature Pulling module
+    - This reduced the computations during the training and inference time.
   2. Pulls Features from RGB feature maps using 3D coordinates.
   3. Uses past frames by using Submanifold Attention module.
 
