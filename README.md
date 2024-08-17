@@ -13,3 +13,9 @@
  1. This repository contains detailed comments to facilitate understanding.
  2. Optimized some of the original code for better efficiency without sacrificing performance.
  3. Most importantly, for my own study!
+
+## Citation
+- Link to the original code
+  - https://github.com/valeoai/PointBeV
+- Link to the paper
+  - https://arxiv.org/abs/2312.00703
