@@ -12,7 +12,7 @@ from pointbev.utils import pylogger, rich_utils
 log = pylogger.get_pylogger(__name__)
 
 
-def extras(cfg: DictConfig) -> None:
+def extras(cfg: DictConfig) -> (None):
     """Applies optional utilities before the task is started.
 
     Utilities:

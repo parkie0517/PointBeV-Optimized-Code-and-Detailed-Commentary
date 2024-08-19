@@ -8,10 +8,10 @@ defaults:
   - override net/heads: sparse_convn.yaml
   
 name: PointBeV
-_target_: pointbev.models.BasicTrainer
+_target_: pointbev.models.BasicTrainer # pointbev/models/trainer.py/BasicTrainer(LightningModule)
 
 net:
-  _target_: pointbev.models.PointBeV
+  _target_: pointbev.models.PointBeV # models is a package. PointBeV location: pointbev/models/sampled.py/PointBeV()
 
   in_shape: 
     projector: [200,200,8]

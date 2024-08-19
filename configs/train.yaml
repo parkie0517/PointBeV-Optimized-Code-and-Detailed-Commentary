@@ -3,11 +3,11 @@
 defaults:
   - _self_
   - data: nuscenes.yaml
-  - model: PointBeV.yaml
+  - model: PointBeV.yaml # model references PointBeV.yaml
   - callbacks: default_pl.yaml
   - plugins: null
   - logger: default_pl.yaml
-  - trainer: ddp_pl.yaml
+  - trainer: ddp_pl.yaml # PointBeV\configs\trainer\ddp_pl.yaml
   - paths: default.yaml
   - extras: default.yaml
   - hydra: default.yaml

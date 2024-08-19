@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional, Tuple
 
-import hydra
+import hydra # pip install hydra-core --upgrade
 import pyrootutils
 import pytorch_lightning as L
 import torch
@@ -30,25 +30,31 @@ from pointbev import utils
 # set up a logger for tracking and debugging
 log = utils.get_pylogger(__name__)
 
-
+"""
+    4. train() function
+        - configuration data is passed as an argument
+"""
 @utils.task_wrapper
-def train(cfg: DictConfig) -> Tuple[dict, dict]:
-    if cfg.get("seed"):
+def train(cfg: DictConfig) -> (Tuple[dict, dict]):
+    if cfg.get("seed"): # if seed is null, then this block is not executed
         L.seed_everything(cfg.seed, workers=True)
-
+    
     log.info(f"Instantiating datamodule <{cfg.data._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(cfg.data)
 
+    """
+        4.1. Assign PointBeV to model variable
+    """
     ckpt = utils.get_ckpt_from_path(cfg.ckpt.path)
 
-    log.info(f"Instantiating model <{cfg.model._target_}>")
-    model: LightningModule = hydra.utils.instantiate(cfg.model)
+    log.info(f"Instantiating model <{cfg.model._target_}>") # leave a log
+    model: LightningModule = hydra.utils.instantiate(cfg.model) # instantiate PointBev
     model = utils.load_state_model(
         model,
         ckpt,
         cfg.ckpt.model.freeze,
         cfg.ckpt.model.load,
-        verbose=1,
+        verbose=1, # verbose(장황한): determines the level of information logged during the loading process
     )
 
     log.info("Instantiating callbacks...")
@@ -82,7 +88,9 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         )
     else:
         profiler = None
-
+    """
+        4.2. Define the Trainer
+    """
     log.info(f"Instantiating trainer <{cfg.trainer._target_}>")
     trainer: Trainer = hydra.utils.instantiate(
         cfg.trainer,
@@ -108,7 +116,7 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         utils.log_hyperparameters(object_dict)
 
     if cfg.get("train"):
-        log.info("Starting training!")
+        log.info("Starting training!") # leave a log
         trainer.fit(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt.path)
 
     train_metrics = trainer.callback_metrics
@@ -129,17 +137,20 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
 
     return metric_dict, object_dict
 
-
+"""
+    3. main function
+"""
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train.yaml")
-def main(cfg: DictConfig) -> Optional[float]:
+def main(cfg: DictConfig) -> (Optional[float]): # Added '(' and ')' around the return type to avoid error
     # apply extra utilities
     # (e.g. ask for tags if none are provided in cfg, print cfg tree, etc.)
-    utils.modif_config_based_on_flags(cfg)
+    # cfg will now contain the data from 'train.yaml'
 
-    utils.extras(cfg)
+    utils.modif_config_based_on_flags(cfg) # go check pointbev/utils/launch.py
+    utils.extras(cfg) # pointbev/utils/utils/extras()
 
     # train the model
-    metric_dict, _ = train(cfg)
+    metric_dict, _ = train(cfg) # ignore the 2nd value
 
     # safely retrieve metric value for hydra-based hyperparameter optimization
     metric_value = utils.get_metric_value(
@@ -150,5 +161,9 @@ def main(cfg: DictConfig) -> Optional[float]:
     return metric_value
 
 
+"""
+    2. Checking 
+        - only execute the code below if this file is being run as the main file
+"""
 if __name__ == "__main__":
     main()

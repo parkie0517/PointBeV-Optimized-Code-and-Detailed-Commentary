@@ -553,7 +553,7 @@ class SampledCoordSelector(CoordSelector):
         self,
         mask: Tensor,
         patch_size: int,
-    ) -> Tensor:
+    ) -> (Tensor):
         """Augment the mask by convolving it with a kernel of size patch_size. The larger
         the kernel, the more points are considered activated.
 
@@ -571,7 +571,7 @@ class SampledCoordSelector(CoordSelector):
         augm_mask = rearrange(augm_mask, "bt 1 X Y -> bt (X Y)")
         return augm_mask
 
-    def _select_idx_to_keep(self, mask: Tensor, N_pts: int, X_Y: Tuple[int]) -> Tensor:
+    def _select_idx_to_keep(self, mask: Tensor, N_pts: int, X_Y: Tuple[int]) -> (Tensor):
         """Select final points to keep.
         Either we keep Nfine points ordered by their importance or we reinject random points when points are
         predicted as not important, otherwise we will have an artefact at the bottom due to the selection
