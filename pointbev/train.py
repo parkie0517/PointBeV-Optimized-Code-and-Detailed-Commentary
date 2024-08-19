@@ -1,3 +1,14 @@
+"""
+    Original code from: https://github.com/valeoai/PointBeV
+    Addition of comments and optimization by Heejun Park
+"""
+
+"""
+    1. Environmental Setup
+        - Import necesary modules
+        - Configues the root directory
+        - Setup logger
+"""
 import sys
 from pathlib import Path
 from typing import List, Optional, Tuple
@@ -16,6 +27,7 @@ pyrootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
 from pointbev import utils
 
+# set up a logger for tracking and debugging
 log = utils.get_pylogger(__name__)
 
 
