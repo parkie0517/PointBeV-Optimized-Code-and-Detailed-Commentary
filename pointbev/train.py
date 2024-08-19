@@ -114,13 +114,19 @@ def train(cfg: DictConfig) -> (Tuple[dict, dict]):
     if logger:
         log.info("Logging hyperparameters!")
         utils.log_hyperparameters(object_dict)
-
+    """
+        4.3. Training
+            - unlike conventional pytorch training loop, Trainer class helps make the training code cleaner
+    """
     if cfg.get("train"):
         log.info("Starting training!") # leave a log
-        trainer.fit(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt.path)
+        trainer.fit(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt.path) # actual training
 
-    train_metrics = trainer.callback_metrics
+    train_metrics = trainer.callback_metrics # retrieve the training (and validation) results
 
+    """
+        4.4. Testing
+    """
     if cfg.get("test"):
         log.info("Starting testing!")
         ckpt_path = trainer.checkpoint_callback.best_model_path
@@ -130,10 +136,10 @@ def train(cfg: DictConfig) -> (Tuple[dict, dict]):
         trainer.test(model=model, datamodule=datamodule, ckpt_path=ckpt_path)
         log.info(f"Best ckpt path: {ckpt_path}")
 
-    test_metrics = trainer.callback_metrics
+    test_metrics = trainer.callback_metrics # retrieve the test results
 
     # merge train and test metrics
-    metric_dict = {**train_metrics, **test_metrics}
+    metric_dict = {**train_metrics, **test_metrics} # merge two dictionaries
 
     return metric_dict, object_dict
 
