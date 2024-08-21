@@ -30,6 +30,8 @@ from pointbev import utils
 # set up a logger for tracking and debugging
 log = utils.get_pylogger(__name__)
 
+
+
 """
     4. train() function
         - configuration data is passed as an argument
@@ -143,8 +145,14 @@ def train(cfg: DictConfig) -> (Tuple[dict, dict]):
 
     return metric_dict, object_dict
 
+
+
 """
     3. main function
+        - @hydra.main : decorator used to ease the execution of the main function using the specified configuration
+        - the decorator passes the configuration data as a dictionary format
+        - main() gets the configuration data as the cfg variable
+        - main() returns float value
 """
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train.yaml")
 def main(cfg: DictConfig) -> (Optional[float]): # Added '(' and ')' around the return type to avoid error
@@ -167,9 +175,10 @@ def main(cfg: DictConfig) -> (Optional[float]): # Added '(' and ')' around the r
     return metric_value
 
 
+
 """
-    2. Checking 
-        - only execute the code below if this file is being run as the main file
+    2. Checking if the code is ran directly
+        - only execute the code below if this file is being ran as the main file
 """
 if __name__ == "__main__":
-    main()
+    main() # go to section 3
