@@ -95,7 +95,7 @@ def task_wrapper(task_func: Callable) -> Callable:
     return wrap
 
 
-def get_metric_value(metric_dict: dict, metric_name: str) -> float:
+def get_metric_value(metric_dict: dict, metric_name: str) -> (float):
     """Safely retrieves value of the metric logged in LightningModule."""
 
     if not metric_name:

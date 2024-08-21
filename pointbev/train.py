@@ -151,20 +151,35 @@ def train(cfg: DictConfig) -> (Tuple[dict, dict]):
     3. main function
         - @hydra.main : decorator used to ease the execution of the main function using the specified configuration
         - the decorator passes the configuration data as a dictionary format
-        - main() gets the configuration data as the cfg variable
-        - main() returns float value
 """
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train.yaml")
-def main(cfg: DictConfig) -> (Optional[float]): # Added '(' and ')' around the return type to avoid error
-    # apply extra utilities
-    # (e.g. ask for tags if none are provided in cfg, print cfg tree, etc.)
-    # cfg will now contain the data from 'train.yaml'
+def main(cfg: DictConfig) -> (Optional[float]): # Added parentheses around the return type to avoid error
+    """
+        - main() gets the configuration data as the cfg variable
+        - main() returns float value
+    """
+    
 
-    utils.modif_config_based_on_flags(cfg) # go check pointbev/utils/launch.py
-    utils.extras(cfg) # pointbev/utils/utils/extras()
+    """
+        3.1. Extra settings
+            3.1.1. modif_config_based_on_flags()
+                - modif_config_based_on_flags() function is defined in pointbev/utils/launch.py
+                - dynamically modifies some configuration settings
+            3.1.2. extras()
+                - defined in pointbev/utils/utils/extras()
+                - performs additional configuration settings
+    """
+    utils.modif_config_based_on_flags(cfg) 
+    utils.extras(cfg) 
 
-    # train the model
-    metric_dict, _ = train(cfg) # ignore the 2nd value
+
+    """
+        3.2. train()
+            - start training
+            - returns the metric (=result)
+            - the 2nd value that is being returned is ignored
+    """
+    metric_dict, _ = train(cfg)
 
     # safely retrieve metric value for hydra-based hyperparameter optimization
     metric_value = utils.get_metric_value(

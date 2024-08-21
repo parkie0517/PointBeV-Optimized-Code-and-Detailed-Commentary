@@ -14,6 +14,12 @@
   2. Optimized some of the original code for better efficiency without sacrificing performance.
   3. Most importantly, for my own study!
 
+## Prerequisites  
+- This repo ueses **Pytorch Lightning**  
+  - Therefore, the code does not explicitly use a <ins>for loop</ins> to iterate through epochs.
+  - Rather, it uses a <ins>Trainer</ins> class to trian the neural network. 
+  - If you have any difficulties understanding how the Pytorch Lightning's Trainer class operates, I highly recommend that you read the [Official Documentation](https://lightning.ai/docs/pytorch/stable/common/trainer.html)
+
 ## Citation
 - Link to the original code
   - https://github.com/valeoai/PointBeV
